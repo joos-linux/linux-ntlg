@@ -168,3 +168,33 @@ sudo mdadm --create /dev/md0 -l 1 -n 2 /dev/sd{b,c}
 - journalctl
 - nano /etc/systemd/journald.conf
 - journalctl --since=yesterday --until=now
+
+### Управление пакетами
+- apt install
+- apt update
+- apt upgrade
+- apt search -pattern-
+- apt show -packet_name-
+- apt list -
+--installed
+--upgradeable
+--all-versions
+- apt remove <packet_name>
+- apt purge <packet_name> 
+- apt reinstall <packet_name>
+- apt autoremove 
+- apt -f install 
+- yum update
+- yum update <packet_name>
+- yum downgrade <packet_name>
+- yum search <pattern>
+- yum list
+ -- installed
+ -- available 
+ -- all 
+ - yum install <packet_name>
+ - yum remove <packet_name>
+ - yum reinstall <packet_name>
+ - yum autoremove
+ - yum clean packages
+ 
