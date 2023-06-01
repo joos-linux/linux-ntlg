@@ -29,7 +29,7 @@ Linux command
 - Поток номер 1 (STDOUT)
 - Поток номер 2 (STDERR)
 - pwd -  вывести рабочую директорию
-- cd path - перейти в каталог
+- cd путь - перейти в каталог
 - mkdir dir -  создать каталог
 - ls (-l -a -h) - просмотр содержимого каталога
 - ln (-s - symlink) - hard link
@@ -39,16 +39,20 @@ Linux command
 - rmdir dir (-v) - удалить пустую директорию
 - apt (update, upgrade, serch, install, remove, purge, autoremove)
 - $PATH - путь содержит все директории, где интерпретатор командной строки ищет команды.
+- dmesg - процесс загрузки системы
+- apt update / updgrade / install / search / remove / purge / autoremove
+- .bashrc - настройки баш - можно дописать синоним
 
 ### Процессы
-- ps (-a)
+- ps aux (PID - идентификатор, TTY - устройство на котором запущен, STAT - статус, TIME - время CPU использованное процессом, COMMAND - команда запуска, START - время запуска)
+- START (R — выполняется, D — uninterruptable sleep (ожидает ввод-вывод), S — interruptable sleep, I — idle (бездействует > 20 секунд), T — приостановлен, Z — зомби, W — выгружен на диск (swap file), < — имеет повышенный приоритет, N — имеет пониженный приоритет, L — страницы заблокированы в ядре, s — лидер сеанса (например, консоль))
 - top
-- pidstat (sudo apt install sysstat) - process monitoring - pidstat -p 1583(id) 1
+- pidstat (sudo apt install sysstat) - pidstat -p 1583(id) 1 - показывает через 1 секунду процесс
 - /proc - cataloge with sys statistic, processes, kernel parametr 
-- cat /proc/cpuinfo
-- cat /proc/version
-- cat /proc/stat
-- strace
+- cat /proc/cpuinfo - информация о CPU
+- cat /proc/version — версия Linux
+- cat /proc/stat - cистемная статистика
+- strace - нужен для отладки - отображает каждый системный вызов, выполненный процессом и каждый полученный сигнал - подключается по PID и показывает в реальном времени (если без параметров)
 - nice - sudo nice -n 13 nano
 - renice - sudo renice 5 13111
 - ls > file - output to file
