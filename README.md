@@ -40,12 +40,11 @@ Linux command
 - apt (update, upgrade, serch, install, remove, purge, autoremove)
 - $PATH - путь содержит все директории, где интерпретатор командной строки ищет команды.
 - dmesg - процесс загрузки системы
-- apt update / updgrade / install / search / remove / purge / autoremove
 - .bashrc - настройки баш - можно дописать синоним
 
 ### Процессы
 - ps aux (PID - идентификатор, TTY - устройство на котором запущен, STAT - статус, TIME - время CPU использованное процессом, COMMAND - команда запуска, START - время запуска)
-- START (R — выполняется, D — uninterruptable sleep (ожидает ввод-вывод), S — interruptable sleep, I — idle (бездействует > 20 секунд), T — приостановлен, Z — зомби, W — выгружен на диск (swap file), < — имеет повышенный приоритет, N — имеет пониженный приоритет, L — страницы заблокированы в ядре, s — лидер сеанса (например, консоль))
+- STAT (R — выполняется, D — uninterruptable sleep (ожидает ввод-вывод), S — interruptable sleep, I — idle (бездействует > 20 секунд), T — приостановлен, Z — зомби, W — выгружен на диск (swap file), < — имеет повышенный приоритет, N — имеет пониженный приоритет, L — страницы заблокированы в ядре, s — лидер сеанса (например, консоль))
 - top
 - pidstat (sudo apt install sysstat) - pidstat -p 1583(id) 1 - показывает через 1 секунду процесс
 - /proc - cataloge with sys statistic, processes, kernel parametr 
