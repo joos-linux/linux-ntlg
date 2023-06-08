@@ -343,35 +343,62 @@ fatresize -s /dev/sd*
 
 
 ### Загрузка
-- /boot/grub/grub.cfg — Debian, Ubuntu
-- /boot/grub2/grub.cfg — Red Hat, CentOS
-- update-grub/grub2-mkconfig
-- sudo nano /etc/default/grub - for change
-- sudo update-grub
-- shutdown -r now
-- cat /proc/cmdline - shov info about system
-- sysctl -a - kerner param
-- cat /etc/sysctl.conf | more - config file
-- cat /etc/sysctl.conf | grep ipv4 - ipv4
-- sudo sysctl net.ipv4.ip_forward=1 - make gateway
-- /sbin/init - process/daemon manage all
-- systemd - modern process manage all
-- systemctl get-default
-- systemd module
-- - /usr/lib/systemd/system/ – модули из пакетов (Nginx, Apache,MySQL)
-- - /run/systemd/system/ — модули, созданные во время работы ОС
-- - /etc/systemd/system/ — модули, созданные пользователем
-- systemd-analyze plot > test.svg
-- sudo systemctl list-dependencies
+- Загрузка (boot, booting) — процесс запуска устройства и загрузки ОС. В этот момент происходит обнаружение и (само)настройка всех компонентов системы
+- Этапы загрузки
+- 1. Загрузка BIOS/UEFI (MBR/GPT).
+- 2. Поиск, загрузка в память и запуск загрузчика (GRUB).
+- 3. Поиск, загрузка в память и запуск ядра ОС.
+- 4. Запуск системных служб.
+- 5. Запуск пользовательских служб.
+- BIOS (Basic Input/Output System) — набор системных программ (firmware), используемых для процесса проверки и инициализации аппаратного обеспечения с последующим запуском загрузчика ОС.
+- POST (power-on self-test) — процесс первоначальной проверки оборудования сразу после его включения
+- Процесс загрузки BIOS
+- 1. Инициализация видеокарты (как option BIOS);
+- 2. Запуск и выполнение POST;
+- 3. Поиск загрузчика ОС на доступных устройствах (проверка сигнатуры загрузочного диска);
+- 4. Передача управления на найденный загрузочный сектор.
+- UEFI, Unified Extensible Firmware Interface (интерфейс расширяемой прошивки) — спецификация интерфейса между ОС и аппаратными прошивками (firmware), UEFI, в отличии от BIOS, содержит свой собственный загрузчик — UEFI Boot Manager
+- 1. SEC (Security) — проверяет цифровые подписи и передает управление доверенному коду.
+- 2. PEI (Pre EFI Initialization) — инициализация устройств.
+- 3. DXE (Driver eXecution Environment) — загрузка сервисов UEFI.
+- 4. BDS (Boot Device Select) — поиск устройств загрузки.
+- 5. RT (Run Time) — GRUB.
+- GRand Unified Boot (GRUB) — стандарт де-факто для загрузчиков Linux. Основное назначение: загрузка ядра ОС и выбор параметров загрузки.
+- Настройка GRUB - grub.cfg - Внесение изменений в конфигурацию GRUB - /etc/default/grub - подтверждение - update-grub/grub2-mkconfig
+- cat /proc/cmdline - Параметры ядра
+- BOOT_IMAGE — образ ядра, которое загружено в данный момент
+- root — корневая ФС
+- vt.handoff — параметр специфичный для Ubuntu, нужен для сокрытия вывода загрузчика
+- sysctl -a - Просмотр параметров ядра
+- cat /etc/sysctl.conf | more - config file - Просмотр конфигурационного файла
+- Initrd (Initial RAM Disk) — образ, содержащий модули для инициализации ядра. GRUB передает ядру данный образ как параметр загрузки, поэтому, следует обратить внимание на то, что файл initrd должен соответствовать загружаемому ядру. Если ядро содержит все необходимые модули, то файл initrd не нужен.
+- init — специальный процесс (демон) управления системой и службами - Режимы работы init - однопользовательский (службы не запускаются), многопользовательский (режим запуска по умолчанию), сервер (аналогичен многопользовательскому, но без GUI)
+- /sbin/init - Расположение init
+- Варианты init - 
+- System V - Все службы запускаются последовательно
+- BSD init - FreeBSD, NetBSD, OpenBSD
+- systemd - упрощенный процесс загрузки, параллельный запуск служб, запись событий в системный журнал.
+- Процесс запуска Init-V
+- GRUB загружает и запускает ядро;
+- ядро запускает /sbin/init;
+- init разбирает /etc/inittab и выполняет сценарий для инициализации системы;
+- init выполняет скрипт /etc/rc.d/rc или /etc/init.d/rc;
+- скрипты из /etc/rcn.d или /etc/init.d/rcn.d запускают различные службы.
+- systemd — современный менеджер управления службами Linux. Позволяет выполнять следующие действия со службами: запускать/останавливать; добавлять/удалять; редактировать; собирать логи.
+- Цель (target) — нужное состояние системы; ссылка на файл, содержащий зависимости (службы) Systemd запускает все зависимости из соответствующего target файла. Когда все зависимости будут запущены, то система будет работать на соответствующем target-уровне
+- systemctl get-default - проверка target - (graphical.target)
+- Модуль (unit) — описывает запускаемую службу, устройство и т.п. - Каждый модуль описан в своем файле (unit file): /usr/lib/systemd/system/ – модули из пакетов (Nginx, Apache, MySQL); /run/systemd/system/ — модули, созданные во время работы ОС; /etc/systemd/system/ — модули, созданные пользователем.
+- Типы модулей - модули служб — обычные службы ОС, модули монтирования — монтируют ФС, целевый модули/цели — группируют другие модули
 - systemctl list-units — список модулей
 - systemctl list-units --type=service — список модулей-служб
 - systemctl status module — состояние выбранного модуля
 - systemctl enable\disable module — разрешить/запретить модуль
 - systemctl start\stop\restart module — запустить/остановить/модуль
 - systemctl daemon-reload — перезапуск конфигурации systemd
-- journalctl
-- nano /etc/systemd/journald.conf
-- journalctl --since=yesterday --until=now
+- journalctl - Журнал — база данных, в которой хранятся сообщения ядра и служб, начиная с загрузки и заканчивая завершением работы
+- nano /etc/systemd/journald.conf - Настройки журнала
+- ournalctl -u=sshd — сообщения для модуля ssh
+- journalctl --since=yesterday --until=now - временной период
 
 ### Управление пакетами
 - apt install
