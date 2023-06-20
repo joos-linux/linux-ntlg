@@ -233,7 +233,11 @@ sys 0m0,004s
 
 **MBR** (Master Boot Record, главная загрузочная запись) содержит сведения о структуре жесткого диска и код для запуска операционной системы
 
+![mbr](https://github.com/joos-linux/linux-ntlg/blob/main/mbr.png)
+
 **GUID** (Globally Unique Identifier) Partition Table (GPT) — стандарт формата размещения таблиц разделов на физическом жестком диске. Является частью расширяемого микропрограммного интерфейса, Extensible Firmware Interface, EFI.
+
+![gpt](https://github.com/joos-linux/linux-ntlg/blob/main/gpt.png)
 
 - **lsblk** – утилита выводит список блочных устройств с информацией о них
 - **blkid** – утилита отображает информацию об уникальных идентификаторах блочных устройств
